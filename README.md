@@ -4,7 +4,15 @@
 
 You can notify Slack of GitHub Actions results.
 
-![success](https://user-images.githubusercontent.com/8043276/185978284-4c2c5683-5d0d-4a8e-a0f8-1e74c2c8d1fa.png)
+## Permissions
+
+This action only performs read operations. Set the minimum required permissions in your workflow:
+
+```yaml
+permissions:
+  actions: read   # to list workflow jobs
+  contents: read  # to fetch commit metadata
+```
 
 ## Quick Start
 
