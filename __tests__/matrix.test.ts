@@ -14,7 +14,10 @@ import { Client, With, Success } from '../src/client';
 
 beforeAll(() => {
   setupMockCommit(process.env.GITHUB_SHA as string);
-  setupMockJobs(process.env.GITHUB_RUN_ID as string, 'actions.matrix-runs.jobs');
+  setupMockJobs(
+    process.env.GITHUB_RUN_ID as string,
+    'actions.matrix-runs.jobs',
+  );
 });
 
 describe('MATRIX_CONTEXT', () => {
