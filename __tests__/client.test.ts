@@ -1,7 +1,7 @@
 import nock from 'nock';
 import {
-  setupNockCommit,
-  setupNockJobs,
+  setupMockCommit,
+  setupMockJobs,
   successMsg,
   failMsg,
   cancelMsg,
@@ -23,13 +23,8 @@ import {
 } from '../src/client';
 
 beforeAll(() => {
-  nock.disableNetConnect();
-  setupNockCommit(process.env.GITHUB_SHA as string);
-  setupNockJobs(process.env.GITHUB_RUN_ID as string, 'actions.runs.jobs');
-});
-afterAll(() => {
-  nock.cleanAll();
-  nock.enableNetConnect();
+  setupMockCommit(process.env.GITHUB_SHA as string);
+  setupMockJobs(process.env.GITHUB_RUN_ID as string, 'actions.runs.jobs');
 });
 
 describe('step-security/action-slack', () => {

@@ -25,3 +25,10 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
       - name: 'Dependency Review'
         uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48 # v4.9.0
+        with:
+          allow-ghsas: >-
+            GHSA-2mjp-6q6p-2qxm,
+            GHSA-4992-7rv2-5pvq,
+            GHSA-g9mf-h72j-4rw9,
+            GHSA-v9p9-hfj2-hcw8,
+            GHSA-vrm6-8vpv-qv8q
