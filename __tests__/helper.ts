@@ -1,9 +1,9 @@
-import nock from 'nock';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { Field, With } from '../src/client';
 import { FieldFactory } from '../src/fields';
-import github, { context, getOctokit } from '@actions/github';
+import { MockAgent } from 'undici';
+import { context, getOctokit } from '@actions/github';
 
 export const gitHubToken = 'github-token';
 export const gitHubBaseUrl = '';
@@ -30,25 +30,39 @@ export const getTemplate: any = (
   };
 };
 
-export const setupNockCommit = (sha: string) =>
-  nock('https://api.github.com')
-    .persist()
-    .get(`/repos/step-security/action-slack/commits/${sha}`)
-    .reply(200, () => getApiFixture('repos.commits.get'));
+const getMockAgent = (): MockAgent => (global as any).__undiciMockAgent;
 
-export const setupNockJobs = (runId: string, fixture: string) =>
-  nock('https://api.github.com')
-    .persist()
-    .get(`/repos/step-security/action-slack/actions/runs/${runId}/jobs`)
-    .reply(200, () => {
-      const obj = getApiFixture(fixture);
-      const now = new Date();
-      now.setHours(now.getHours() - 1);
-      now.setMinutes(now.getMinutes() - 1);
-      now.setSeconds(now.getSeconds() - 1);
-      obj.jobs[0].started_at = now.toISOString();
-      return obj;
-    });
+export const setupMockCommit = (sha: string): void => {
+  const pool = getMockAgent().get('https://api.github.com');
+  pool
+    .intercept({
+      path: `/repos/step-security/action-slack/commits/${sha}`,
+      method: 'GET',
+    })
+    .reply(200, getApiFixture('repos.commits.get'), {
+      headers: { 'content-type': 'application/json' },
+    })
+    .times(100);
+};
+
+export const setupMockJobs = (runId: string, fixture: string): void => {
+  const pool = getMockAgent().get('https://api.github.com');
+  const obj = getApiFixture(fixture);
+  const now = new Date();
+  now.setHours(now.getHours() - 1);
+  now.setMinutes(now.getMinutes() - 1);
+  now.setSeconds(now.getSeconds() - 1);
+  obj.jobs[0].started_at = now.toISOString();
+  pool
+    .intercept({
+      path: `/repos/step-security/action-slack/actions/runs/${runId}/jobs`,
+      method: 'GET',
+    })
+    .reply(200, obj, {
+      headers: { 'content-type': 'application/json' },
+    })
+    .times(100);
+};
 
 export const successMsg = ':white_check_mark: Succeeded GitHub Actions\n';
 export const cancelMsg = ':warning: Cancelled GitHub Actions\n';

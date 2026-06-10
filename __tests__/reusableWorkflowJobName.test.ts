@@ -1,29 +1,22 @@
-import nock from 'nock';
-
 process.env.GITHUB_RUN_ID = '2';
 
 import {
   gitHubToken,
   gitHubBaseUrl,
   newWith,
-  setupNockCommit,
-  setupNockJobs,
+  setupMockCommit,
+  setupMockJobs,
   successMsg,
   webhookUrl,
 } from './helper';
 import { Client, With, Success } from '../src/client';
 
 beforeAll(() => {
-  nock.disableNetConnect();
-  setupNockCommit(process.env.GITHUB_SHA as string);
-  setupNockJobs(
+  setupMockCommit(process.env.GITHUB_SHA as string);
+  setupMockJobs(
     process.env.GITHUB_RUN_ID as string,
     'actions.reusable-workflow-job-name.jobs',
   );
-});
-afterAll(() => {
-  nock.cleanAll();
-  nock.enableNetConnect();
 });
 
 describe('job_name', () => {

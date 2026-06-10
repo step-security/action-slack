@@ -1,0 +1,19 @@
+[[IgnoredVulns]]
+id = "GHSA-2mjp-6q6p-2qxm"
+reason = "Requires attacker-controlled header names/values passed to undici. This action only makes fixed read-only calls to api.github.com with no user-controlled headers."
+
+[[IgnoredVulns]]
+id = "GHSA-4992-7rv2-5pvq"
+reason = "Requires attacker control of the upgrade parameter passed to client.request(). This action does not use the upgrade option and makes no user-controlled requests."
+
+[[IgnoredVulns]]
+id = "GHSA-g9mf-h72j-4rw9"
+reason = "Requires a malicious server to send crafted Content-Encoding responses. This action only connects to api.github.com which is a trusted endpoint."
+
+[[IgnoredVulns]]
+id = "GHSA-v9p9-hfj2-hcw8"
+reason = "Requires attacker control of the WebSocket server. This action makes no WebSocket connections."
+
+[[IgnoredVulns]]
+id = "GHSA-vrm6-8vpv-qv8q"
+reason = "Requires attacker control of the WebSocket server to send crafted compressed frames. This action makes no WebSocket connections."

@@ -1,9 +1,7 @@
-import nock from 'nock';
-
 process.env.GITHUB_EVENT_NAME = 'pull_request';
 
 import {
-  setupNockCommit,
+  setupMockCommit,
   getTemplate,
   newWith,
   gitHubToken,
@@ -11,15 +9,10 @@ import {
   webhookUrl,
 } from './helper';
 import { Client, Success } from '../src/client';
-import github from '@actions/github';
+import { context } from '@actions/github';
 
 beforeAll(() => {
-  nock.disableNetConnect();
-  setupNockCommit(process.env.GITHUB_SHA as string);
-});
-afterAll(() => {
-  nock.cleanAll();
-  nock.enableNetConnect();
+  setupMockCommit(process.env.GITHUB_SHA as string);
 });
 
 describe('pull request event', () => {

@@ -1,5 +1,3 @@
-import nock from 'nock';
-
 process.env.GITHUB_RUN_ID = '2';
 process.env.MATRIX_CONTEXT = '{"os": "ubuntu-18.04"}';
 
@@ -7,24 +5,19 @@ import {
   gitHubToken,
   gitHubBaseUrl,
   newWith,
-  setupNockCommit,
-  setupNockJobs,
+  setupMockCommit,
+  setupMockJobs,
   successMsg,
   webhookUrl,
 } from './helper';
 import { Client, With, Success } from '../src/client';
 
 beforeAll(() => {
-  nock.disableNetConnect();
-  setupNockCommit(process.env.GITHUB_SHA as string);
-  setupNockJobs(
+  setupMockCommit(process.env.GITHUB_SHA as string);
+  setupMockJobs(
     process.env.GITHUB_RUN_ID as string,
     'actions.matrix-runs.jobs',
   );
-});
-afterAll(() => {
-  nock.cleanAll();
-  nock.enableNetConnect();
 });
 
 describe('MATRIX_CONTEXT', () => {
