@@ -27,7 +27,7 @@
   "author": "step-security",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^2.0.1",
+    "@actions/core": "^3.0.1",
     "@actions/github": "^6.0.1",
     "@slack/webhook": "^7.0.2",
     "axios": "^1.17.0",
