@@ -31,7 +31,7 @@
     "@actions/github": "^6.0.1",
     "@slack/webhook": "^7.0.2",
     "axios": "^1.17.0",
-    "https-proxy-agent": "^5.0.1"
+    "https-proxy-agent": "^9.1.0"
   },
   "devDependencies": {
     "@types/jest": "^28.1.7",
